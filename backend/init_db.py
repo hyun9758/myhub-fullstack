@@ -54,7 +54,7 @@ def seed_education() -> None:
         db.add_all(
             [
                 Education(
-                    school="삼육대학교",
+                    school="국내 4년제 대학교",
                     degree="학사",
                     field_of_study="컴퓨터공학과 소프트웨어공학부",
                     start_date=date(2020, 3, 1),
@@ -86,7 +86,7 @@ def seed_career() -> None:
             return
         db.add(
             Career(
-                institution="㈜모디엠",
+                institution="소프트웨어 개발 회사",
                 period="2025.12 ~ 2026.02",
                 role="내비게이션 SW 개발 QA",
                 description=None,
