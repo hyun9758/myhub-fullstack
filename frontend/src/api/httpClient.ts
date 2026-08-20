@@ -16,5 +16,8 @@ export async function apiFetchJson<T>(path: string, init?: RequestInit): Promise
     const body = await res.json().catch(() => ({}))
     throw new ApiError(res.status, body.detail ?? `요청 실패 (${res.status})`)
   }
+  if (res.status === 204) {
+    return undefined as T
+  }
   return res.json() as Promise<T>
 }

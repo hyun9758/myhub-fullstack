@@ -104,7 +104,7 @@ export function ProfileSection({ authenticated, onLogin, onLogout, onUnauthorize
             <button type="button" onClick={handleSave} disabled={saving}>
               저장
             </button>
-            <button type="button" onClick={() => setEditing(false)} disabled={saving}>
+            <button type="button" className="secondary" onClick={() => setEditing(false)} disabled={saving}>
               취소
             </button>
           </div>
@@ -123,17 +123,17 @@ export function ProfileSection({ authenticated, onLogin, onLogout, onUnauthorize
         <p className="profile-updated">마지막 수정: {new Date(profile.updated_at).toLocaleString('ko-KR')}</p>
         {authenticated ? (
           <div className="profile-actions">
-            <button type="button" onClick={startEditing}>
+            <button type="button" className="link-button" onClick={startEditing}>
               편집
             </button>
-            <button type="button" onClick={() => onLogout()}>
+            <button type="button" className="link-button" onClick={() => onLogout()}>
               로그아웃
             </button>
           </div>
         ) : showLoginForm ? (
           <LoginForm onLogin={onLogin} onCancel={() => setShowLoginForm(false)} />
         ) : (
-          <button type="button" className="profile-login-link" onClick={() => setShowLoginForm(true)}>
+          <button type="button" className="link-button profile-login-link" onClick={() => setShowLoginForm(true)}>
             관리자 로그인
           </button>
         )}

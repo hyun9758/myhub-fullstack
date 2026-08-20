@@ -38,7 +38,7 @@ export function LoginForm({ onLogin, onCancel }: Props) {
         <button type="submit" disabled={submitting}>
           로그인
         </button>
-        <button type="button" onClick={onCancel}>
+        <button type="button" className="secondary" onClick={onCancel}>
           취소
         </button>
       </div>

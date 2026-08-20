@@ -1,4 +1,4 @@
-"""ORM 엔티티 — 테이블의 모양. API 응답 모양은 schemas.py 가 별도로 정의한다."""
+"""profile 엔티티 — 테이블의 모양. 이력서 소유자는 한 명뿐이라 CRUD 중 Read/Update만 있다."""
 
 from datetime import datetime
 from typing import Optional

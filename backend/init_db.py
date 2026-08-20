@@ -1,11 +1,14 @@
-"""서버 시작 시 테이블 자동 생성 + RLS 잠금 + 초기 데이터 seed."""
+"""서버 시작 시 테이블 자동 생성 + RLS 잠금 + 초기 데이터 seed. package-by-feature 전환 후에도
+Base.metadata 는 하나(db.py)를 공유하므로, 각 기능의 models 를 import 하기만 하면 등록된다."""
 
 import argparse
+from datetime import date
 
 from sqlalchemy import inspect, select, text
 
-import models  # noqa: F401  (Base.metadata 에 등록되도록 import 필요)
 from db import Base, SessionLocal, engine
+from education.models.education import Education
+from profiles.models.profile import Profile
 
 
 def create_tables() -> list[str]:
@@ -23,12 +26,12 @@ def lock_down(table_names: list[str]) -> None:
             conn.execute(text(f'revoke all on table public."{name}" from anon, authenticated'))
 
 
-def seed() -> None:
+def seed_profile() -> None:
     with SessionLocal() as db:
-        if db.scalars(select(models.Profile)).first() is not None:
+        if db.scalars(select(Profile)).first() is not None:
             return
         db.add(
-            models.Profile(
+            Profile(
                 full_name="정현수",
                 headline="Front-End & Full-Stack Developer",
                 summary=(
@@ -38,7 +41,40 @@ def seed() -> None:
             )
         )
         db.commit()
-        print("[init] 초기 데이터 1건 입력")
+        print("[init] profile 초기 데이터 1건 입력")
+
+
+def seed_education() -> None:
+    with SessionLocal() as db:
+        if db.scalars(select(Education)).first() is not None:
+            return
+        db.add_all(
+            [
+                Education(
+                    school="삼육대학교",
+                    degree="학사",
+                    field_of_study="컴퓨터공학과 소프트웨어공학부",
+                    start_date=date(2020, 3, 1),
+                    end_date=date(2026, 2, 28),
+                ),
+                Education(
+                    school="멋쟁이사자처럼 프론트엔드 스쿨 8기",
+                    degree="수료",
+                    field_of_study="프론트엔드 부트캠프",
+                    start_date=date(2023, 10, 1),
+                    end_date=date(2024, 3, 31),
+                ),
+                Education(
+                    school="멋쟁이사자처럼 플러스 프론트엔드 3기",
+                    degree="수료",
+                    field_of_study="프론트엔드 심화 과정",
+                    start_date=date(2025, 1, 1),
+                    end_date=date(2025, 3, 31),
+                ),
+            ]
+        )
+        db.commit()
+        print("[init] education 초기 데이터 3건 입력")
 
 
 def init_database() -> None:
@@ -46,7 +82,8 @@ def init_database() -> None:
     if new_tables:
         lock_down(new_tables)
         print(f"[init] 테이블 생성 + 잠금: {', '.join(new_tables)}")
-    seed()
+    seed_profile()
+    seed_education()
 
 
 def reset() -> None:

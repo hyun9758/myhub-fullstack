@@ -1,5 +1,7 @@
 import { ProfileSection } from './features/profile/ProfileSection'
+import { EducationSection } from './features/education/EducationSection'
 import { useAuth } from './features/auth/useAuth'
+import { ThemeToggle } from './theme/ThemeToggle'
 import './App.css'
 
 function App() {
@@ -7,12 +9,16 @@ function App() {
 
   return (
     <main className="page">
+      <div className="page-toolbar">
+        <ThemeToggle />
+      </div>
       <ProfileSection
         authenticated={authenticated}
         onLogin={login}
         onLogout={logout}
         onUnauthorized={handleUnauthorized}
       />
+      <EducationSection authenticated={authenticated} onUnauthorized={handleUnauthorized} />
     </main>
   )
 }

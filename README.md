@@ -18,7 +18,7 @@ myhub_02_fullstack/
 - [x] Step 3 — 프론트엔드 화면 붙이기 (Vite 프록시 + openapi-typescript 자동 생성 타입)
 - [x] Step 4 — 로그인(서명 세션 쿠키) 및 In-place 편집, 세션 만료 시 자동 로그인 유도
 - [x] Step 5 — SQLAlchemy ORM 도입 (`db.py`/`models.py`/`schemas.py`/`init_db.py` 분리, 서버 시작 시 테이블 자동 생성+seed)
-- [ ] Step 6 — package-by-feature 재구성 (profiles/education/auth)
+- [x] Step 6 — package-by-feature 재구성 (auth/profiles/education), education CRUD, 다크모드+디자인 토큰
 - [ ] Step 7 — pytest 테스트
 
 ## 로컬 실행
