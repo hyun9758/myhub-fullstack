@@ -6,3 +6,9 @@ export type ProfileResponse =
   paths['/api/profile']['get']['responses'][200]['content']['application/json']
 
 export type Profile = ProfileResponse['profile']
+
+export type AuthStatus =
+  paths['/api/auth/session']['get']['responses'][200]['content']['application/json']
+
+export type ProfileUpdate =
+  paths['/api/profile']['put']['requestBody']['content']['application/json']

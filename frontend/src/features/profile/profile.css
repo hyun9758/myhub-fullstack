@@ -30,6 +30,7 @@
 .profile-updated {
   font-size: 12px;
   color: #6b6b72;
+  margin: 0;
 }
 
 .profile-loading,
@@ -40,4 +41,90 @@
 
 .profile-error {
   color: #c0392b;
+}
+
+/* 읽기 텍스트와 입력칸이 같은 자리를 쓰도록 폰트를 물려받는다 (in-place edit 착시) */
+.editable {
+  font: inherit;
+  color: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #3b5bdb;
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin-bottom: 10px;
+  background: #f7f7ff;
+}
+
+textarea.editable {
+  resize: vertical;
+}
+
+.profile-footer {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #e5e5e8;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.profile-actions button,
+.login-form button {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #3b5bdb;
+  background: #ffffff;
+  color: #3b5bdb;
+  cursor: pointer;
+}
+
+.profile-actions button:hover,
+.login-form button:hover {
+  background: #eef1fb;
+}
+
+.profile-login-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #6b6b72;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.login-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.login-form input {
+  font-size: 13px;
+  padding: 5px 10px;
+  border: 1px solid #d9d9df;
+  border-radius: 8px;
+}
+
+.login-form-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.login-form-error {
+  width: 100%;
+  font-size: 12px;
+  color: #c0392b;
+  margin: 6px 0 0;
 }
