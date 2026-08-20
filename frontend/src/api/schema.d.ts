@@ -13,10 +13,7 @@ export interface paths {
         };
         /**
          * Health
-         * @description Supabase(PostgreSQL) 연결 상태와 버전 정보를 JSON으로 반환한다.
-         *
-         *     - 성공 시: {"database": "연결됨", "postgres_version": "..."}
-         *     - 실패 시: 502와 함께 에러 메시지 반환 (.env 접속 정보를 확인할 것)
+         * @description Supabase(PostgreSQL) 연결 상태와 버전 정보를 반환한다. (raw SQL — 엔티티로 표현할 대상이 아님)
          */
         get: operations["health_health_get"];
         put?: never;
@@ -36,15 +33,12 @@ export interface paths {
         };
         /**
          * Get Profile
-         * @description `public.profile` 테이블에서 이름·한 줄 소개·상세 소개·마지막 수정 시각을 조회한다.
-         *
-         *     - 200: {"profile": {...}}
-         *     - 404: 아직 데이터가 한 줄도 없는 경우 (테이블은 있으나 seed가 안 된 상태)
+         * @description `profile` 엔티티에서 이름·한 줄 소개·상세 소개·마지막 수정 시각을 조회한다.
          */
         get: operations["get_profile_api_profile_get"];
         /**
          * Update Profile
-         * @description 로그인(관리자)한 경우에만 프로필을 수정한다. id·updated_at은 서버가 자동 관리한다.
+         * @description 로그인(관리자)한 경우에만 프로필을 수정한다. updated_at은 엔티티 정의(onupdate)로 자동 갱신된다.
          */
         put: operations["update_profile_api_profile_put"];
         post?: never;
@@ -96,26 +90,30 @@ export interface components {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
         };
+        /** HealthResponse */
+        HealthResponse: {
+            /** Database */
+            database: string;
+            /** Postgres Version */
+            postgres_version: string;
+        };
         /** LoginRequest */
         LoginRequest: {
             /** Passcode */
             passcode: string;
         };
-        /**
-         * Profile
-         * @description 이력서 소유자의 기본 프로필 정보 DTO. DB 테이블 원형을 그대로 노출하지 않고
-         *     외부로 나가는 필드만 명시적으로 정의한다 (내부 전용 컬럼이 추가되어도 자동 유출되지 않음).
-         */
+        /** Profile */
         Profile: {
-            /** Id */
-            id: number;
             /** Full Name */
             full_name: string;
             /** Headline */
             headline: string;
             /** Summary */
             summary: string | null;
-            /** Updated At */
+            /**
+             * Updated At
+             * Format: date-time
+             */
             updated_at: string;
         };
         /** ProfileResponse */
@@ -168,7 +166,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": unknown;
+                    "application/json": components["schemas"]["HealthResponse"];
                 };
             };
         };
