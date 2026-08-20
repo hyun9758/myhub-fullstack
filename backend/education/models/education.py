@@ -3,7 +3,7 @@
 from datetime import date
 from typing import Optional
 
-from sqlalchemy import BigInteger, Date, Identity, Text
+from sqlalchemy import Date, Integer, Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 from db import Base
@@ -12,7 +12,10 @@ from db import Base
 class Education(Base):
     __tablename__ = "education"
 
-    id: Mapped[int] = mapped_column(BigInteger, Identity(always=True), primary_key=True)
+    # 명시적 Identity() 대신 표준 autoincrement 기본키를 쓴다 — Postgres에선 SERIAL로 동작하고,
+    # SQLite(테스트용)에서도 rowid 별칭으로 그대로 호환된다.
+    # (SQLite는 선언 타입이 정확히 'INTEGER'일 때만 자동증가 별칭이 붙으므로 BigInteger 대신 Integer 사용)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     school: Mapped[str] = mapped_column(Text, nullable=False)
     degree: Mapped[str] = mapped_column(Text, nullable=False)
     field_of_study: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

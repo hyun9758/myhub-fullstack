@@ -9,7 +9,9 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 load_dotenv()
 
-DATABASE_URL = URL.create(
+# DATABASE_URL이 미리 설정되어 있으면 그대로 쓴다 (테스트에서 임시 SQLite로 바꿔치기할 때 사용).
+# 평소 실행(.env)에는 DATABASE_URL이 없으므로 항상 Supabase 접속 정보를 항목별로 조립한다.
+DATABASE_URL = os.getenv("DATABASE_URL") or URL.create(
     "postgresql+psycopg",
     username=os.getenv("DB_USER", "postgres"),
     password=os.getenv("DB_PASSWORD"),
