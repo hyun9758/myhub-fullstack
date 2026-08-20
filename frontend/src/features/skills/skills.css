@@ -1,0 +1,38 @@
+.skills-section {
+  max-width: 560px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.skills-field-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skills-tags .tag {
+  font-size: 12.5px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: var(--fg);
+}
+
+.skills-lang-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.skills-lang-row input {
+  flex: 1;
+}

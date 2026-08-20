@@ -86,6 +86,60 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/careers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Careers */
+        get: operations["list_careers_api_careers_get"];
+        put?: never;
+        /** Create Career */
+        post: operations["create_career_api_careers_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/careers/{career_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Career */
+        put: operations["update_career_api_careers__career_id__put"];
+        post?: never;
+        /** Delete Career */
+        delete: operations["delete_career_api_careers__career_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/skills": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Skills */
+        get: operations["get_skills_api_skills_get"];
+        /** Update Skills */
+        put: operations["update_skills_api_skills_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health": {
         parameters: {
             query?: never;
@@ -115,6 +169,41 @@ export interface components {
             /** Authenticated */
             authenticated: boolean;
         };
+        /** CareerCreateRequest */
+        CareerCreateRequest: {
+            /** Institution */
+            institution: string;
+            /** Period */
+            period: string;
+            /** Role */
+            role: string;
+            /** Description */
+            description?: string | null;
+        };
+        /** CareerDTO */
+        CareerDTO: {
+            /** Id */
+            id: number;
+            /** Institution */
+            institution: string;
+            /** Period */
+            period: string;
+            /** Role */
+            role: string;
+            /** Description */
+            description: string | null;
+        };
+        /** CareerUpdateRequest */
+        CareerUpdateRequest: {
+            /** Institution */
+            institution: string;
+            /** Period */
+            period: string;
+            /** Role */
+            role: string;
+            /** Description */
+            description?: string | null;
+        };
         /** EducationCreateRequest */
         EducationCreateRequest: {
             /** School */
@@ -130,6 +219,8 @@ export interface components {
             start_date: string;
             /** End Date */
             end_date?: string | null;
+            /** Gpa */
+            gpa?: string | null;
         };
         /** EducationDTO */
         EducationDTO: {
@@ -148,6 +239,8 @@ export interface components {
             start_date: string;
             /** End Date */
             end_date: string | null;
+            /** Gpa */
+            gpa: string | null;
         };
         /** EducationUpdateRequest */
         EducationUpdateRequest: {
@@ -164,6 +257,8 @@ export interface components {
             start_date: string;
             /** End Date */
             end_date?: string | null;
+            /** Gpa */
+            gpa?: string | null;
         };
         /** HTTPValidationError */
         HTTPValidationError: {
@@ -177,12 +272,23 @@ export interface components {
             /** Postgres Version */
             postgres_version: string;
         };
+        /** LanguageProficiency */
+        LanguageProficiency: {
+            /** Name */
+            name: string;
+            /** Level */
+            level: string;
+        };
         /** LoginRequest */
         LoginRequest: {
             /** Passcode */
             passcode: string;
         };
-        /** ProfileDTO */
+        /**
+         * ProfileDTO
+         * @description 방문자에게 내려가는 기본 모양. 민감 필드는 profiles/service.py에서 방문자일 때 None으로 가린다
+         *     (PRD UR-13). 소유자 조회 시에는 실제 값이 채워져 내려간다 — 필드 자체는 동일하게 유지한다.
+         */
         ProfileDTO: {
             /** Full Name */
             full_name: string;
@@ -190,6 +296,24 @@ export interface components {
             headline: string;
             /** Summary */
             summary: string | null;
+            /** Photo */
+            photo: string | null;
+            /** Badges */
+            badges: string[];
+            /** Birth */
+            birth: string | null;
+            /** Address */
+            address: string | null;
+            /** Military Service */
+            military_service: string | null;
+            /** Email */
+            email: string | null;
+            /** Mobile */
+            mobile: string | null;
+            /** Affiliation */
+            affiliation: string | null;
+            /** Social */
+            social: components["schemas"]["SocialLink"][];
             /**
              * Updated At
              * Format: date-time
@@ -208,6 +332,47 @@ export interface components {
             headline: string;
             /** Summary */
             summary?: string | null;
+            /** Photo */
+            photo?: string | null;
+            /** Badges */
+            badges?: string[];
+            /** Birth */
+            birth?: string | null;
+            /** Address */
+            address?: string | null;
+            /** Military Service */
+            military_service?: string | null;
+            /** Email */
+            email?: string | null;
+            /** Mobile */
+            mobile?: string | null;
+            /** Affiliation */
+            affiliation?: string | null;
+            /** Social */
+            social?: components["schemas"]["SocialLink"][];
+        };
+        /** SkillsDTO */
+        SkillsDTO: {
+            /** Tech */
+            tech: string[];
+            /** Languages */
+            languages: components["schemas"]["LanguageProficiency"][];
+        };
+        /** SkillsUpdateRequest */
+        SkillsUpdateRequest: {
+            /** Tech */
+            tech?: string[];
+            /** Languages */
+            languages?: components["schemas"]["LanguageProficiency"][];
+        };
+        /** SocialLink */
+        SocialLink: {
+            /** Platform */
+            platform: string;
+            /** Label */
+            label: string;
+            /** Url */
+            url: string;
         };
         /** ValidationError */
         ValidationError: {
@@ -320,7 +485,9 @@ export interface operations {
             query?: never;
             header?: never;
             path?: never;
-            cookie?: never;
+            cookie?: {
+                session?: string | null;
+            };
         };
         requestBody?: never;
         responses: {
@@ -331,6 +498,15 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
@@ -481,6 +657,184 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_careers_api_careers_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CareerDTO"][];
+                };
+            };
+        };
+    };
+    create_career_api_careers_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CareerCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CareerDTO"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_career_api_careers__career_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                career_id: number;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CareerUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CareerDTO"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_career_api_careers__career_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                career_id: number;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_skills_api_skills_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SkillsDTO"];
+                };
+            };
+        };
+    };
+    update_skills_api_skills_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SkillsUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SkillsDTO"];
+                };
             };
             /** @description Validation Error */
             422: {

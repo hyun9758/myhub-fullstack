@@ -21,3 +21,4 @@ class Education(Base):
     field_of_study: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     start_date: Mapped[date] = mapped_column(Date, nullable=False)
     end_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
+    gpa: Mapped[Optional[str]] = mapped_column(Text, nullable=True)

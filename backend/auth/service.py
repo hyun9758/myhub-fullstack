@@ -16,6 +16,23 @@ def get_serializer() -> URLSafeTimedSerializer:
     return URLSafeTimedSerializer(os.environ["SESSION_SECRET"], salt="myhub-auth")
 
 
+def is_authenticated(session: Optional[str]) -> bool:
+    """세션 쿠키가 유효한 소유자 세션인지 조용히 확인한다 (실패해도 예외를 던지지 않음).
+    require_auth와 달리 방문자를 막지 않고, 응답 내용을 다르게 결정하는 용도로 쓴다 (예: 민감 필드 노출 여부, PRD UR-13)."""
+    if session is None:
+        return False
+    try:
+        get_serializer().loads(session, max_age=SESSION_MAX_AGE_SECONDS)
+    except (BadSignature, SignatureExpired):
+        return False
+    return True
+
+
+def optional_auth(session: Optional[str] = Cookie(default=None)) -> bool:
+    """require_auth의 '통과 안 하면 차단' 버전이 아니라, 인증 여부만 bool로 돌려주는 의존성."""
+    return is_authenticated(session)
+
+
 def require_auth(session: Optional[str] = Cookie(default=None)) -> None:
     """관리자 전용 엔드포인트 가드. 다른 기능(profiles, education)의 쓰기 요청이 이 의존성을 그대로 가져다 쓴다."""
     if session is None:

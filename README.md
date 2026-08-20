@@ -10,6 +10,8 @@ myhub_02_fullstack/
 │   ├── auth/          로그인 · 세션 확인 · 로그아웃 (DB 없음, 비밀번호는 .env)
 │   ├── profiles/      프로필 조회 · 수정 (Read + Update, 단일 레코드)
 │   ├── education/     학력 CRUD (여러 건)
+│   ├── career/        경력 CRUD (여러 건)
+│   ├── skills/        스킬 조회 · 통째 수정 (Read + Update, 단일 레코드)
 │   │   └── (각 기능 폴더는 router → service → repository → models 4겹 구조)
 │   ├── tests/         pytest (기능별 테스트 파일 + conftest 픽스처)
 │   ├── db.py          SQLAlchemy 엔진 · 세션 · Base
@@ -18,10 +20,12 @@ myhub_02_fullstack/
 │   └── main.py        FastAPI 앱 조립 (라우터 include)
 ├── frontend/
 │   └── src/
-│       ├── features/{auth,profile,education}/   백엔드와 동일한 기능별 구조
+│       ├── features/{auth,profile,education,career,skills}/   백엔드와 동일한 기능별 구조
 │       ├── theme/      다크모드 (useTheme, ThemeToggle)
 │       └── api/        httpClient, openapi-typescript 자동 생성 타입
-└── docs/               PRD, 요구사항 그릴링, 데이터 스키마 등 명세 산출물
+├── specs/              PRD, 유저스토리, 데이터 요구사항, UI/UX 요구사항, ADR (그릴링 산출물)
+├── CONTEXT.md           프로젝트 용어집
+└── CLAUDE.md            프로젝트 컨벤션 (coding-agent 입력)
 ```
 
 ## 진행 상태 (스캐폴딩 Step 1-7)
@@ -33,6 +37,16 @@ myhub_02_fullstack/
 - [x] Step 5 — SQLAlchemy ORM 도입 (`db.py`/`models.py`/`schemas.py`/`init_db.py` 분리, 서버 시작 시 테이블 자동 생성+seed)
 - [x] Step 6 — package-by-feature 재구성 (auth/profiles/education), education CRUD, 다크모드+디자인 토큰
 - [x] Step 7 — pytest 테스트 (23개, 커버리지 87%, 임시 SQLite로 실제 DB 미사용)
+
+## 진행 상태 (6장 그릴링 · 7장 구현)
+
+- [x] 6.2 요구사항 그릴링 — `specs/analysis/myhub_us.md`
+- [x] 6.3 데이터 스키마 그릴링 — `specs/design/myhub_data_req.md`, ADR 3건, `CONTEXT.md`
+- [x] 7.1 에이전트/훅 정의 — `.claude/agents/coding-agent.md`, `.claude/hooks/protect-env.sh`
+- [x] 7.3 공통 레이아웃 설계 — `specs/design/myhub_uiux_req.md`, UI 목업
+- [x] 7.5 명세 주입 구현 — **career, skills 도메인 신규 구현** + profile 필드 확장(사진/생년월일/주소/병역/연락처/소셜) + education.gpa 보완
+  - 민감 필드(birth/address/military_service)는 방문자 응답에서 제외, 소유자 조회 시에만 노출 (PRD UR-13)
+  - ⚠️ career/skills는 아직 pytest 테스트가 없음 (coding-agent는 테스트를 작성하지 않는 역할 분리, 7.1 참고)
 
 ## 로컬 실행
 

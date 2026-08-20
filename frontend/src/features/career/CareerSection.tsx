@@ -1,28 +1,23 @@
 import { useEffect, useState } from 'react'
-import { createEducation, deleteEducation, fetchEducations, updateEducation } from './api'
-import { EducationForm } from './EducationForm'
+import { createCareer, deleteCareer, fetchCareers, updateCareer } from './api'
+import { CareerForm } from './CareerForm'
 import { ApiError } from '../../api/httpClient'
-import type { Education, EducationCreate } from '../../api/types'
-import './education.css'
+import type { Career, CareerCreate } from '../../api/types'
+import '../education/education.css'
 
 interface Props {
   authenticated: boolean
   onUnauthorized: () => void
 }
 
-function formatPeriod(startDate: string, endDate: string | null) {
-  const end = endDate ?? '재학 중'
-  return `${startDate} ~ ${end}`
-}
-
-export function EducationSection({ authenticated, onUnauthorized }: Props) {
-  const [items, setItems] = useState<Education[] | null>(null)
+export function CareerSection({ authenticated, onUnauthorized }: Props) {
+  const [items, setItems] = useState<Career[] | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [showAddForm, setShowAddForm] = useState(false)
   const [editingId, setEditingId] = useState<number | null>(null)
 
   function load() {
-    fetchEducations()
+    fetchCareers()
       .then(setItems)
       .catch((e) => setError(e.message))
   }
@@ -36,9 +31,9 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
     }
   }, [authenticated])
 
-  async function handleCreate(data: EducationCreate) {
+  async function handleCreate(data: CareerCreate) {
     try {
-      const created = await createEducation(data)
+      const created = await createCareer(data)
       setItems((prev) => (prev ? [created, ...prev] : [created]))
       setShowAddForm(false)
     } catch (e) {
@@ -47,9 +42,9 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
     }
   }
 
-  async function handleUpdate(id: number, data: EducationCreate) {
+  async function handleUpdate(id: number, data: CareerCreate) {
     try {
-      const updated = await updateEducation(id, data)
+      const updated = await updateCareer(id, data)
       setItems((prev) => (prev ? prev.map((it) => (it.id === id ? updated : it)) : prev))
       setEditingId(null)
     } catch (e) {
@@ -59,9 +54,9 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
   }
 
   async function handleDelete(id: number) {
-    if (!window.confirm('이 학력 항목을 삭제할까요?')) return
+    if (!window.confirm('이 경력 항목을 삭제할까요?')) return
     try {
-      await deleteEducation(id)
+      await deleteCareer(id)
       setItems((prev) => (prev ? prev.filter((it) => it.id !== id) : prev))
     } catch (e) {
       if (e instanceof ApiError && e.status === 401) onUnauthorized()
@@ -69,7 +64,7 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
   }
 
   if (error) {
-    return <div className="education-section profile-error">학력을 불러오지 못했습니다: {error}</div>
+    return <div className="education-section profile-error">경력을 불러오지 못했습니다: {error}</div>
   }
 
   if (items === null) {
@@ -82,19 +77,17 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
 
   return (
     <section className="education-section">
-      <h2 className="education-title">학력</h2>
+      <h2 className="education-title">경력</h2>
 
       {items.map((item) =>
         editingId === item.id ? (
-          <EducationForm
+          <CareerForm
             key={item.id}
             initial={{
-              school: item.school,
-              degree: item.degree,
-              field_of_study: item.field_of_study,
-              start_date: item.start_date,
-              end_date: item.end_date,
-              gpa: item.gpa,
+              institution: item.institution,
+              period: item.period,
+              role: item.role,
+              description: item.description,
             }}
             onSubmit={(data) => handleUpdate(item.id, data)}
             onCancel={() => setEditingId(null)}
@@ -102,13 +95,10 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
         ) : (
           <div className="education-item" key={item.id}>
             <div className="education-item-main">
-              <p className="education-school">{item.school}</p>
-              <p className="education-detail">
-                {item.degree}
-                {item.field_of_study ? ` · ${item.field_of_study}` : ''}
-                {item.gpa ? ` · 평점 ${item.gpa}` : ''}
-              </p>
-              <p className="education-period">{formatPeriod(item.start_date, item.end_date)}</p>
+              <p className="education-school">{item.institution}</p>
+              <p className="education-detail">{item.role}</p>
+              {item.description && <p className="education-detail">{item.description}</p>}
+              <p className="education-period">{item.period}</p>
             </div>
             {authenticated && (
               <div className="education-item-actions">
@@ -126,10 +116,10 @@ export function EducationSection({ authenticated, onUnauthorized }: Props) {
 
       {authenticated &&
         (showAddForm ? (
-          <EducationForm onSubmit={handleCreate} onCancel={() => setShowAddForm(false)} />
+          <CareerForm onSubmit={handleCreate} onCancel={() => setShowAddForm(false)} />
         ) : (
           <button type="button" className="link-button" onClick={() => setShowAddForm(true)}>
-            + 학력 추가
+            + 경력 추가
           </button>
         ))}
     </section>

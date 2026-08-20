@@ -13,6 +13,7 @@ export function EducationForm({ initial, onSubmit, onCancel }: Props) {
   const [fieldOfStudy, setFieldOfStudy] = useState(initial?.field_of_study ?? '')
   const [startDate, setStartDate] = useState(initial?.start_date ?? '')
   const [endDate, setEndDate] = useState(initial?.end_date ?? '')
+  const [gpa, setGpa] = useState(initial?.gpa ?? '')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -27,6 +28,7 @@ export function EducationForm({ initial, onSubmit, onCancel }: Props) {
         field_of_study: fieldOfStudy || null,
         start_date: startDate,
         end_date: endDate || null,
+        gpa: gpa || null,
       })
     } catch (err) {
       setError(err instanceof Error ? err.message : '저장에 실패했습니다.')
@@ -54,6 +56,7 @@ export function EducationForm({ initial, onSubmit, onCancel }: Props) {
           <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
         </label>
       </div>
+      <input placeholder="평점 (선택)" value={gpa} onChange={(e) => setGpa(e.target.value)} />
       <div className="education-form-actions">
         <button type="submit" disabled={submitting}>
           저장

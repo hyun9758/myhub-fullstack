@@ -25,6 +25,7 @@ def create_education(db: Session, data: EducationCreateRequest) -> Education:
         field_of_study=data.field_of_study,
         start_date=data.start_date,
         end_date=data.end_date,
+        gpa=data.gpa,
     )
     db.add(entity)
     db.commit()
@@ -38,6 +39,7 @@ def update_education(db: Session, entity: Education, data: EducationUpdateReques
     entity.field_of_study = data.field_of_study
     entity.start_date = data.start_date
     entity.end_date = data.end_date
+    entity.gpa = data.gpa
     db.commit()
     db.refresh(entity)
     return entity

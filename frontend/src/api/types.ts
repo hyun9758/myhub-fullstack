@@ -16,3 +16,11 @@ export type ProfileUpdate =
 export type Education = components['schemas']['EducationDTO']
 export type EducationCreate = components['schemas']['EducationCreateRequest']
 export type EducationUpdate = components['schemas']['EducationUpdateRequest']
+
+export type Career = components['schemas']['CareerDTO']
+export type CareerCreate = components['schemas']['CareerCreateRequest']
+export type CareerUpdate = components['schemas']['CareerUpdateRequest']
+
+export type Skills = components['schemas']['SkillsDTO']
+export type SkillsUpdate = components['schemas']['SkillsUpdateRequest']
+export type SocialLink = components['schemas']['SocialLink']

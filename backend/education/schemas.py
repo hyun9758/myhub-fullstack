@@ -15,6 +15,7 @@ class EducationDTO(BaseModel):
     field_of_study: Optional[str]
     start_date: date
     end_date: Optional[date]
+    gpa: Optional[str]
 
 
 class EducationCreateRequest(BaseModel):
@@ -23,6 +24,7 @@ class EducationCreateRequest(BaseModel):
     field_of_study: Optional[str] = Field(default=None, max_length=200)
     start_date: date
     end_date: Optional[date] = None
+    gpa: Optional[str] = Field(default=None, max_length=20)
 
 
 class EducationUpdateRequest(EducationCreateRequest):

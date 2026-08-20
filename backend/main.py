@@ -8,11 +8,13 @@ from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from auth.router import router as auth_router
+from career.router import router as career_router
 from db import engine, get_db
 from education.router import router as education_router
 from init_db import init_database
 from profiles.router import router as profiles_router
 from schemas import HealthResponse
+from skills.router import router as skills_router
 
 
 @asynccontextmanager
@@ -28,6 +30,8 @@ app = FastAPI(title="MyHub Backend", lifespan=lifespan)
 app.include_router(auth_router)
 app.include_router(profiles_router)
 app.include_router(education_router)
+app.include_router(career_router)
+app.include_router(skills_router)
 
 
 @app.get("/health", response_model=HealthResponse)

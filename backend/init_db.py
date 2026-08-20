@@ -6,9 +6,11 @@ from datetime import date
 
 from sqlalchemy import inspect, select, text
 
+from career.models.career import Career
 from db import Base, SessionLocal, engine
 from education.models.education import Education
 from profiles.models.profile import Profile
+from skills.models.skills import Skills
 
 
 def create_tables() -> list[str]:
@@ -77,6 +79,44 @@ def seed_education() -> None:
         print("[init] education 초기 데이터 3건 입력")
 
 
+def seed_career() -> None:
+    with SessionLocal() as db:
+        if db.scalars(select(Career)).first() is not None:
+            return
+        db.add(
+            Career(
+                institution="㈜모디엠",
+                period="2025.12 ~ 2026.02",
+                role="내비게이션 SW 개발 QA",
+                description=None,
+            )
+        )
+        db.commit()
+        print("[init] career 초기 데이터 1건 입력")
+
+
+def seed_skills() -> None:
+    with SessionLocal() as db:
+        if db.scalars(select(Skills)).first() is not None:
+            return
+        db.add(
+            Skills(
+                tech=[
+                    "HTML5", "JavaScript", "TypeScript", "React", "CSS3",
+                    "Styled-Components", "TailwindCSS", "Next.js", "Spring", "JWT",
+                    "React Native", "Expo", "PostgreSQL", "MySQL", "Supabase", "Prisma",
+                    "AWS", "Docker", "Node.js", "FastAPI", "SQLAlchemy",
+                ],
+                languages=[
+                    {"name": "한국어", "level": "모국어"},
+                    {"name": "영어", "level": "업무 가능"},
+                ],
+            )
+        )
+        db.commit()
+        print("[init] skills 초기 데이터 1건 입력")
+
+
 def init_database() -> None:
     new_tables = create_tables()
     if new_tables:
@@ -84,6 +124,8 @@ def init_database() -> None:
         print(f"[init] 테이블 생성 + 잠금: {', '.join(new_tables)}")
     seed_profile()
     seed_education()
+    seed_career()
+    seed_skills()
 
 
 def reset() -> None:
