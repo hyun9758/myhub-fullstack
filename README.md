@@ -13,8 +13,8 @@ myhub_02_fullstack/
 
 ## 진행 상태 (스캐폴딩 Step 1-7)
 
-- [x] Step 1 — 백엔드 ↔ Supabase 연결 확인 (`GET /health`) — **Supabase 접속 정보 입력 대기 중**
-- [ ] Step 2 — `profile` 테이블 생성 및 `GET /profile`
+- [x] Step 1 — 백엔드 ↔ Supabase 연결 확인 (`GET /health`)
+- [x] Step 2 — `profile` 테이블 생성(RLS 잠금) 및 `GET /profile`
 - [ ] Step 3 — 프론트엔드 화면 붙이기
 - [ ] Step 4 — 로그인 및 In-place 편집
 - [ ] Step 5 — SQLAlchemy ORM 도입
