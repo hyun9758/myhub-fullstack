@@ -1,0 +1,7 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 1000, "title": "방문자 모드" },
+    { "file": "Edit.dc.html", "x": 1360, "y": 0, "w": 1280, "h": 1080, "title": "소유자 편집 모드" }
+  ],
+  "launch": { "view": "canvas" }
+}

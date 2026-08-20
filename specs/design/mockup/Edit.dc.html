@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1E5178;
+      --accent: #4187AA;
+      --bg: #ffffff;
+      --bg-subtle: #F5F6F7;
+      --border: #E2E4E7;
+      --ink: #1A1D1F;
+      --ink-muted: #6B7075;
+      --chip-bg: #EAF1F5;
+      --edit-bg: #F2F7FA;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Noto Sans KR', system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+    a { color: var(--accent); text-decoration: none; }
+    .btn { border: 1px solid var(--border); background: #fff; border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; }
+    .btn-primary { border: 1px solid var(--primary); background: var(--primary); color: #fff; border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .btn-link { border: none; background: none; color: var(--ink-muted); font-size: 12.5px; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 4px; }
+    .btn-link-danger { border: none; background: none; color: #B3413B; font-size: 12.5px; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 4px; }
+    .card { border: 1px solid var(--border); border-radius: 14px; background: #fff; }
+    .chip { display: inline-flex; align-items: center; background: var(--chip-bg); color: var(--primary); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+    .section-title { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
+    .field {
+      font: inherit; width: 100%; box-sizing: border-box; border: 1px solid var(--accent);
+      border-radius: 8px; padding: 7px 10px; background: var(--edit-bg); color: var(--ink); margin-bottom: 8px;
+    }
+    .field-lg { font-size: 15px; font-weight: 700; }
+    .field-sm { font-size: 13px; }
+    .entry-period { font-size: 12px; font-weight: 600; color: var(--ink-muted); white-space: nowrap; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; min-height: 980px; background: var(--bg);">
+
+  <!-- NAV -->
+  <div style="display:flex; align-items:center; gap:28px; padding:16px 40px; border-bottom:1px solid var(--border); background:var(--edit-bg);">
+    <div style="font-weight:700; font-size:17px; color:var(--primary);">MyHub</div>
+    <div style="display:flex; gap:22px; flex:1;">
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">프로필</a>
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">학력</a>
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">경력</a>
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">스킬</a>
+    </div>
+    <span class="chip" style="background:var(--primary); color:#fff;">편집 모드</span>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="btn" style="font-weight:700;">EN</button>
+      <button class="btn">다크 모드</button>
+      <button class="btn">인쇄</button>
+      <button class="btn-link">로그아웃</button>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div style="display:grid; grid-template-columns: 280px 1fr; gap:32px; max-width:1080px; margin:0 auto; padding:40px 0 80px;">
+
+    <!-- PROFILE SIDEBAR (EDIT) -->
+    <aside class="card" style="padding:28px 22px; display:flex; flex-direction:column; align-items:center; gap:10px; align-self:start; position:sticky; top:24px; background:var(--edit-bg); border-color:var(--accent);">
+      <div style="width:96px; height:96px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:28px; border:2px dashed var(--accent);">HJ</div>
+      <button class="btn" style="font-size:11.5px; padding:4px 10px;">사진 URL 변경</button>
+      <input class="field field-lg" style="text-align:center;" value="정현수">
+      <input class="field field-sm" style="text-align:center;" value="생년월일 · 주소 · 병역 (소유자만 보임)">
+      <div style="width:100%; border-top:1px solid var(--border); padding-top:12px;">
+        <div style="font-size:11px; font-weight:700; color:var(--ink-muted); text-transform:uppercase; margin-bottom:6px;">이메일</div>
+        <input class="field field-sm" value="jj020305@gmail.com">
+      </div>
+      <div style="width:100%; display:flex; gap:8px; margin-top:6px;">
+        <button class="btn-primary" style="flex:1;">저장</button>
+        <button class="btn" style="flex:1;">취소</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT (EDIT) -->
+    <main style="display:flex; flex-direction:column; gap:36px;">
+
+      <section>
+        <h2 class="section-title">학력</h2>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="card" style="padding:16px 18px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+            <div style="flex:1;">
+              <p style="font-size:15px; font-weight:700; margin:0;">삼육대학교</p>
+              <p style="font-size:13px; color:var(--ink-muted); margin:2px 0 0;">학사 · 컴퓨터공학과 소프트웨어공학부</p>
+            </div>
+            <span class="entry-period">2020 ~ 2026</span>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-link">수정</button>
+              <button class="btn-link-danger">삭제</button>
+            </div>
+          </div>
+          <div class="card" style="padding:16px 18px; background:var(--edit-bg); border-color:var(--accent); border-style:dashed;">
+            <input class="field field-sm" value="학교명">
+            <input class="field field-sm" value="학위 (예: 학사)">
+            <input class="field field-sm" value="전공 (선택)">
+            <div style="display:flex; gap:8px;">
+              <input class="field field-sm" style="flex:1;" value="시작일">
+              <input class="field field-sm" style="flex:1;" value="종료일 (재학중이면 비움)">
+            </div>
+            <div style="display:flex; gap:8px; margin-top:4px;">
+              <button class="btn-primary">저장</button>
+              <button class="btn">취소</button>
+            </div>
+          </div>
+          <button class="btn-link" style="align-self:flex-start;">+ 학력 추가</button>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">경력</h2>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="card" style="padding:16px 18px; display:flex; justify-content:space-between; align-items:flex-start; gap:16px;">
+            <div style="flex:1;">
+              <p style="font-size:15px; font-weight:700; margin:0;">㈜모디엠</p>
+              <p style="font-size:13px; color:var(--ink-muted); margin:2px 0 0;">내비게이션 SW 개발 QA</p>
+            </div>
+            <span class="entry-period">2025.12 ~ 2026.02</span>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-link">수정</button>
+              <button class="btn-link-danger">삭제</button>
+            </div>
+          </div>
+          <button class="btn-link" style="align-self:flex-start;">+ 경력 추가</button>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">스킬</h2>
+        <div class="card" style="padding:16px 18px; background:var(--edit-bg); border-color:var(--accent); border-style:dashed;">
+          <div style="font-size:12px; font-weight:700; color:var(--ink-muted); margin-bottom:6px;">기술 태그 (쉼표로 구분)</div>
+          <input class="field field-sm" value="React, TypeScript, TailwindCSS, FastAPI">
+          <div style="font-size:12px; font-weight:700; color:var(--ink-muted); margin:10px 0 6px;">언어 능력</div>
+          <input class="field field-sm" value="한국어 - 모국어">
+          <div style="display:flex; gap:8px; margin-top:4px;">
+            <button class="btn-primary">저장</button>
+            <button class="btn">취소</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

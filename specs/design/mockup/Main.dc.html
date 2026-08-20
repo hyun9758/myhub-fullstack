@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1E5178;
+      --accent: #4187AA;
+      --bg: #ffffff;
+      --bg-subtle: #F5F6F7;
+      --border: #E2E4E7;
+      --ink: #1A1D1F;
+      --ink-muted: #6B7075;
+      --chip-bg: #EAF1F5;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Noto Sans KR', system-ui, sans-serif; color: var(--ink); background: var(--bg); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--primary); }
+    .btn { border: 1px solid var(--border); background: #fff; border-radius: 8px; padding: 7px 14px; font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn-link { border: none; background: none; color: var(--ink-muted); font-size: 13px; font-weight: 600; text-decoration: underline; cursor: pointer; padding: 6px 4px; }
+    .card { border: 1px solid var(--border); border-radius: 14px; background: #fff; }
+    .chip { display: inline-flex; align-items: center; background: var(--chip-bg); color: var(--primary); font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+    .tag { display: inline-flex; background: var(--bg-subtle); border: 1px solid var(--border); font-size: 12.5px; padding: 4px 11px; border-radius: 8px; color: var(--ink); }
+    .section-title { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin: 0 0 16px; }
+    .entry-period { font-size: 12px; font-weight: 600; color: var(--ink-muted); white-space: nowrap; }
+    .entry-title { font-size: 15px; font-weight: 700; margin: 0; }
+    .entry-sub { font-size: 13px; color: var(--ink-muted); margin: 2px 0 0; }
+    .entry-desc { font-size: 13px; color: var(--ink); margin: 8px 0 0; line-height: 1.6; }
+  </style>
+</helmet>
+
+<div style="width: 1280px; min-height: 900px; background: var(--bg);">
+
+  <!-- NAV -->
+  <div style="display:flex; align-items:center; gap:28px; padding:16px 40px; border-bottom:1px solid var(--border);">
+    <div style="font-weight:700; font-size:17px; color:var(--primary);">MyHub</div>
+    <div style="display:flex; gap:22px; flex:1;">
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">프로필</a>
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">학력</a>
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">경력</a>
+      <a href="#" style="font-size:13.5px; font-weight:600; color:var(--ink-muted);">스킬</a>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <button class="btn" style="font-weight:700;">EN</button>
+      <button class="btn">다크 모드</button>
+      <button class="btn">인쇄</button>
+      <button class="btn-link">관리자 로그인</button>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div style="display:grid; grid-template-columns: 280px 1fr; gap:32px; max-width:1080px; margin:0 auto; padding:40px 0 80px;">
+
+    <!-- PROFILE SIDEBAR -->
+    <aside class="card" style="padding:28px 22px; display:flex; flex-direction:column; align-items:center; gap:14px; align-self:start; position:sticky; top:24px;">
+      <div style="width:96px; height:96px; border-radius:50%; background:var(--primary); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:28px;">HJ</div>
+      <div style="text-align:center;">
+        <div style="font-size:19px; font-weight:700;">정현수</div>
+        <div style="font-size:12.5px; color:var(--ink-muted); margin-top:2px;">Hyunsoo Jung</div>
+      </div>
+      <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:center;">
+        <span class="chip">프론트엔드 개발자</span>
+        <span class="chip">풀스택 개발자</span>
+      </div>
+      <div style="width:100%; border-top:1px solid var(--border); padding-top:12px; font-size:13px;">
+        <div style="display:flex; justify-content:space-between; padding:3px 0;"><span style="color:var(--ink-muted);">이메일</span><span>jj020305@gmail.com</span></div>
+      </div>
+      <div style="width:100%; border-top:1px solid var(--border); padding-top:12px;">
+        <div style="font-size:11px; font-weight:700; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px;">소속</div>
+        <div style="font-size:13px;">삼육대학교 컴퓨터공학과</div>
+      </div>
+      <div style="width:100%; border-top:1px solid var(--border); padding-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+        <a href="#" class="btn" style="padding:4px 10px; font-size:12px;">GitHub</a>
+        <a href="#" class="btn" style="padding:4px 10px; font-size:12px;">Velog</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main style="display:flex; flex-direction:column; gap:36px;">
+
+      <section>
+        <h2 class="section-title">소개</h2>
+        <p style="font-size:14.5px; line-height:1.7; margin:0;">React·Next.js·React Native를 기반으로 프론트엔드부터 백엔드, 모바일까지 아우르는 풀스택 웹/앱 개발 경험을 쌓아온 개발자입니다.</p>
+      </section>
+
+      <section>
+        <h2 class="section-title">학력</h2>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="card" style="padding:16px 18px; display:flex; justify-content:space-between; gap:16px;">
+            <div>
+              <p class="entry-title">삼육대학교</p>
+              <p class="entry-sub">학사 · 컴퓨터공학과 소프트웨어공학부</p>
+            </div>
+            <span class="entry-period">2020 ~ 2026</span>
+          </div>
+          <div class="card" style="padding:16px 18px; display:flex; justify-content:space-between; gap:16px;">
+            <div>
+              <p class="entry-title">멋쟁이사자처럼 프론트엔드 스쿨 8기</p>
+              <p class="entry-sub">수료 · 프론트엔드 부트캠프</p>
+            </div>
+            <span class="entry-period">2023.10 ~ 2024.03</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">경력</h2>
+        <div class="card" style="padding:16px 18px; display:flex; justify-content:space-between; gap:16px;">
+          <div>
+            <p class="entry-title">㈜모디엠</p>
+            <p class="entry-sub">내비게이션 SW 개발 QA</p>
+          </div>
+          <span class="entry-period">2025.12 ~ 2026.02</span>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">스킬</h2>
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:20px;">
+          <div>
+            <div style="font-size:12.5px; font-weight:700; color:var(--ink-muted); margin-bottom:8px;">Front-End</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">TailwindCSS</span>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:12.5px; font-weight:700; color:var(--ink-muted); margin-bottom:8px;">언어</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <span class="tag">한국어 (모국어)</span><span class="tag">영어 (업무 가능)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
