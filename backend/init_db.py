@@ -10,6 +10,7 @@ from career.models.career import Career
 from db import Base, SessionLocal, engine
 from education.models.education import Education
 from profiles.models.profile import Profile
+from projects.models.project import Project
 from skills.models.skills import Skills
 
 
@@ -117,6 +118,69 @@ def seed_skills() -> None:
         print("[init] skills 초기 데이터 1건 입력")
 
 
+def seed_projects() -> None:
+    with SessionLocal() as db:
+        if db.scalars(select(Project)).first() is not None:
+            return
+        db.add_all(
+            [
+                Project(
+                    category="팀 프로젝트",
+                    year="2025",
+                    period="2025.03 - 2025.11 (8개월)",
+                    name="Q-Checker",
+                    role="프론트엔드 & 백엔드 · 깃 마스터",
+                    description="QR 코드 및 NFC 태그 기술을 활용한 QR 출석 관리 모바일 애플리케이션.",
+                    links=[{"label": "GitHub", "url": "https://github.com/Capstone-project-syu/q-checker"}],
+                ),
+                Project(
+                    category="개인 프로젝트",
+                    year="2025",
+                    period="2025.03 - 2025.11 (8개월)",
+                    name="KAGE",
+                    role="1인 풀스택 개발",
+                    description="캐릭터를 생성하고 유저끼리 대화하는 캐릭터 대화 서비스.",
+                    links=[
+                        {"label": "GitHub", "url": "https://github.com/hyun9758/Kage"},
+                        {"label": "Live", "url": "https://kage-seven.vercel.app/"},
+                    ],
+                ),
+                Project(
+                    category="팀 프로젝트",
+                    year="2025",
+                    period="2025.09 - 2025.11 (2개월)",
+                    name="UnPlug",
+                    role="프론트엔드 & 백엔드 · 깃 마스터",
+                    description="도파민 디톡스를 돕는 모바일 애플리케이션.",
+                    links=[{"label": "GitHub", "url": "https://github.com/BridgeON-Team/unplug"}],
+                ),
+                Project(
+                    category="팀 프로젝트",
+                    year="2025",
+                    period="2025.02 - 2025.03 (1개월)",
+                    name="FUNGLE",
+                    role="프론트엔드 & 백엔드 · 팀장",
+                    description="웹소설 주간 연재 및 도서 펀딩 커뮤니티 웹앱.",
+                    links=[{"label": "GitHub", "url": "https://github.com/FRONT-END-BOOTCAMP-PLUS-3/fungle"}],
+                ),
+                Project(
+                    category="팀 프로젝트",
+                    year="2024",
+                    period="2024.02 - 2024.03",
+                    name="DOSIRAK",
+                    role="프론트엔드",
+                    description="멋쟁이사자처럼 프론트엔드 스쿨 팀 프로젝트.",
+                    links=[
+                        {"label": "GitHub", "url": "https://github.com/FRONTENDSCHOOL8/dosirak"},
+                        {"label": "Live", "url": "https://hankki.netlify.app/"},
+                    ],
+                ),
+            ]
+        )
+        db.commit()
+        print("[init] project 초기 데이터 5건 입력")
+
+
 def init_database() -> None:
     new_tables = create_tables()
     if new_tables:
@@ -126,6 +190,7 @@ def init_database() -> None:
     seed_education()
     seed_career()
     seed_skills()
+    seed_projects()
 
 
 def reset() -> None:

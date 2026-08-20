@@ -13,6 +13,7 @@ from db import engine, get_db
 from education.router import router as education_router
 from init_db import init_database
 from profiles.router import router as profiles_router
+from projects.router import router as projects_router
 from schemas import HealthResponse
 from skills.router import router as skills_router
 
@@ -31,6 +32,7 @@ app.include_router(auth_router)
 app.include_router(profiles_router)
 app.include_router(education_router)
 app.include_router(career_router)
+app.include_router(projects_router)
 app.include_router(skills_router)
 
 

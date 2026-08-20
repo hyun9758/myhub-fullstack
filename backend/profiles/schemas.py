@@ -9,7 +9,8 @@ from pydantic import BaseModel, ConfigDict, Field
 class SocialLink(BaseModel):
     platform: str = Field(min_length=1, max_length=50)
     label: str = Field(min_length=1, max_length=100)
-    url: str = Field(min_length=1, max_length=500)
+    # DRQ-014: URL 형식 검증. http(s):// 로 시작해야 저장을 통과한다.
+    url: str = Field(min_length=1, max_length=500, pattern=r"^https?://")
 
 
 class ProfileDTO(BaseModel):

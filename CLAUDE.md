@@ -30,8 +30,8 @@ npm run dev
 
 ## 이번 사이클 구현 범위
 
-profile / education / career / skills 4개 도메인만 구현되어 있다 (intro/projects/publications/awards는 범위 밖, `myhub_us.md` §0.2 참고).
+profile / education / career / skills / projects 5개 도메인이 구현되어 있다 (intro/publications/awards는 여전히 범위 밖, `myhub_us.md` §0.2 참고).
 
 ## 테스트
 
-`backend/tests/`에 pytest 스위트가 있다(23개, `python -m pytest`). coding-agent 역할의 구현 작업은 테스트를 작성하지 않는다 — 이번 사이클에서 career/skills는 테스트가 아직 없다.
+`backend/tests/`에 pytest 스위트가 있다(55개, 커버리지 90%, `python -m pytest`). coding-agent 역할의 구현 작업(7.5)은 테스트를 작성하지 않는다 — 테스트는 8.1처럼 별도 단계에서 명시적으로 요청했을 때만 작성한다.

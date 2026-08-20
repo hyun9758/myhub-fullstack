@@ -1,7 +1,7 @@
 ---
 doc_id: MYHUB-DATAREQ-001
 title: MyHub 데이터 요구사항 — 논리 데이터 모델
-version: 0.1.0
+version: 0.2.0
 status: approved
 owner: 정현수
 updated: 2026-08-20
@@ -22,9 +22,9 @@ related_docs:
 
 ### 0.2 범위
 
-**포함(In scope)**: profile/education/career/skills 4개 개체의 구조, 값 규칙, 필수 여부, 검증, 생애주기(CRUD 가능 범위), 정렬 규칙.
+**포함(In scope)**: profile/education/career/skills/**projects**(v0.2.0, 8.1 신규 추가) 5개 개체의 구조, 값 규칙, 필수 여부, 검증, 생애주기(CRUD 가능 범위), 정렬 규칙.
 
-**제외(Out of scope)**: intro/projects/publications/awards(이번 사이클 범위 밖, `myhub_us.md` 0.2 참고), 물리 스키마(실제 DB 컬럼 타입), API 엔드포인트 형식, 화면 배치, 저장소 제품 선정(이미 Supabase PostgreSQL로 확정, 스캐폴드 결정).
+**제외(Out of scope)**: intro/publications/awards(여전히 범위 밖, `myhub_us.md` 0.2 참고), 물리 스키마(실제 DB 컬럼 타입), API 엔드포인트 형식, 화면 배치, 저장소 제품 선정(이미 Supabase PostgreSQL로 확정, 스캐폴드 결정).
 
 ### 0.3 독자
 
@@ -190,14 +190,30 @@ erDiagram
 
 ---
 
+### 3.5 `ENT-PROJECT` — 프로젝트 (목록형, 0개 이상) *(v0.2.0, 8.1 신규 추가)*
+
+| 필드 | 뜻 | 값 종류 | 필수 여부 | 비고 |
+|---|---|---|---|---|
+| `category` | 구분(팀/개인 프로젝트) | 문자열 | **필수** | |
+| `year` | 연도 | 문자열(`YYYY`) | **필수** | 정렬 기준 |
+| `period` | 수행 기간 | 문자열(자유 텍스트) | 선택 | career와 동일하게 자유 텍스트 (ADR-0003 원칙 재사용) |
+| `name` | 프로젝트명 | 문자열 | **필수** | |
+| `role` | 역할 | 문자열 | **필수** | |
+| `description` | 설명 | 문자열 | 선택 | |
+| `links[]` | 참조 링크 | `VAL-LINK`(`{label, url}`) 배열 | 선택 | 통째 저장(고유 ID 없음), profile.social과 동일 패턴 |
+
+> **DRQ-018**: `ENT-PROJECT`의 표시 순서는 `year` 최신순 자동 정렬을 따른다 (ADR-0001 원칙의 재적용). 수동 재정렬은 제공하지 않는다.
+>
+> **DRQ-019**: `links[].url`은 `profile.social[].url`과 동일하게 URL 형식을 검증한다 (DRQ-014 재사용).
+
 ## 4. 관계 명세
 
 **존재하지 않는 관계**
 
-- `ENT-PROFILE` ↔ `ENT-EDUCATION`/`ENT-CAREER`/`ENT-SKILLS`: 참조 없음. 모두 단일 소유자의 독립적인 데이터라 "누구의 학력인가"를 표현할 외래키가 필요 없다 (0.5 전제 참고).
-- `ENT-EDUCATION` ↔ `ENT-CAREER`: 참조 없음. 통합 조회 기능을 두지 않기로 했다 (ADR-0002).
+- `ENT-PROFILE` ↔ `ENT-EDUCATION`/`ENT-CAREER`/`ENT-SKILLS`/`ENT-PROJECT`: 참조 없음. 모두 단일 소유자의 독립적인 데이터라 "누구의 학력인가"를 표현할 외래키가 필요 없다 (0.5 전제 참고).
+- `ENT-EDUCATION` ↔ `ENT-CAREER` ↔ `ENT-PROJECT`: 참조 없음. 통합 조회 기능을 두지 않기로 했다 (ADR-0002 원칙을 projects에도 동일하게 적용).
 
-> **DRQ-017**: 네 개체 모두 서로를 참조하지 않으므로, 한 개체를 삭제(단일형은 해당 없음)해도 다른 개체의 데이터는 영향받지 않는다.
+> **DRQ-017**: 다섯 개체 모두 서로를 참조하지 않으므로, 한 개체를 삭제(단일형은 해당 없음)해도 다른 개체의 데이터는 영향받지 않는다.
 
 ---
 
@@ -207,10 +223,10 @@ erDiagram
 - DRQ-001, 002, 003, 017: 개체 독립성과 분류(단일형/목록형) 규칙
 
 ### 5.2 값 규칙
-- DRQ-004, 005, 006, 009, 010, 011, 012, 013, 016: 다국어 값·빈 값·정렬·민감 필드·통째 저장 규칙
+- DRQ-004, 005, 006, 009, 010, 011, 012, 013, 016, 018: 다국어 값·빈 값·정렬·민감 필드·통째 저장 규칙
 
 ### 5.3 검증
-- DRQ-007, 008, 014, 015: 필수 여부, 날짜/URL 형식 검증, 알려진 미완결 필드(gpa)
+- DRQ-007, 008, 014, 015, 019: 필수 여부, 날짜/URL 형식 검증, 알려진 미완결 필드(gpa)
 
 ---
 
@@ -226,8 +242,11 @@ erDiagram
 | V06 | `education` 목록 | 2건, 시작일 다름 | 시작일 최신순으로 정렬되어 반환 |
 | V07 | `career.institution.ko` | 빈 문자열 | 저장 거부 |
 | V08 | `career.period` | `"2022년 여름"` | 저장 성공 (자유 텍스트, DRQ-009) |
-| V09 | `education`/`career` 목록 | 0건 | 목록 응답은 빈 배열, 프론트는 섹션 자체를 숨김 |
-| ⚠️V10 | `education.gpa` | 값 입력 시도 | ⚠️ 필드 자체가 아직 없음 — OPEN-01 참고 |
+| V09 | `education`/`career`/`projects` 목록 | 0건 | 목록 응답은 빈 배열, 프론트는 섹션 자체를 숨김 |
+| V10 | `education.gpa` | 값 입력 | 저장 성공 (v0.2.0에서 OPEN-01 해소) |
+| V11 | `projects.name` | 빈 문자열 | 저장 거부 |
+| V12 | `projects` 목록 | 2건, 연도 다름 | 연도 최신순으로 정렬되어 반환 (DRQ-018) |
+| V13 | `projects.links[].url` | `"not-a-url"` | 저장 거부 (DRQ-019) |
 
 ---
 
@@ -239,6 +258,7 @@ erDiagram
 | USG-04-US-002 (프로필 수정) | §3.1, DRQ-007, DRQ-014 |
 | USG-06-US-001~003 (학력 CRUD) | §3.2, DRQ-008, DRQ-011, DRQ-015 |
 | USG-07-US-001~002 (경력 CRUD) | §3.3, DRQ-009, DRQ-011 |
+| USG-08-US-001~002 (프로젝트 CRUD, v0.2.0) | §3.5, DRQ-018, DRQ-019 |
 | USG-11-US-001~002 (스킬 열람/수정) | §3.4, DRQ-016 |
 
 **이 문서가 뒷받침하지 못하는 유저스토리**
@@ -251,8 +271,9 @@ erDiagram
 
 | ID | 내용 | 그대로 두면 생기는 영향 | 해결 방법 |
 |---|---|---|---|
-| OPEN-01 | `education.gpa`(평점)가 PRD 원 스키마(4장)에는 있으나 스캐폴드 구현에는 없음 | 평점을 이력서에 표시하고 싶어도 저장할 곳이 없음 | 7장 구현 단계에서 `education` 개체에 선택 필드로 추가 |
+| ~~OPEN-01~~ | ~~`education.gpa`(평점)가 PRD 원 스키마(4장)에는 있으나 스캐폴드 구현에는 없음~~ | — | **해소됨 (v0.2.0, 7.5 구현에서 추가)** |
 | OPEN-02 | `career.period`가 자유 텍스트라 정렬이 사전식이라, 실제 날짜 순서와 어긋나는 표기(예: "2022년 여름" vs "2022.03")가 섞이면 순서가 부정확할 수 있음 | 경력 목록이 의도와 다른 순서로 보일 수 있음 | 소유자가 일관된 표기(YYYY.MM 형식)를 쓰도록 안내 문구 추가 검토, 또는 추후 ADR-0003 재검토 |
+| OPEN-03 | `projects.period`도 career와 동일하게 자유 텍스트라, 정렬은 `year`(연도)에만 의존하고 `period`는 정렬에 쓰지 않음 | 같은 연도 내 여러 프로젝트의 순서는 저장 순서에 의존 | 필요 시 `year`를 `year+month`로 세분화하는 방안을 추후 재검토 |
 
 ---
 
@@ -260,6 +281,7 @@ erDiagram
 
 | 버전 | 일자 | 작성자 | 변경 내용 |
 |---|---|---|---|
+| 0.2.0 | 2026-08-20 | 정현수 | 8.1 신규 기능 추가: `ENT-PROJECT`(목록형) 신설(§3.5), DRQ-018/019, 검증 케이스 3건(V11-V13) 추가. `education.gpa` 미결 사항(OPEN-01) 해소, `projects.period` 관련 신규 미결 사항(OPEN-03) 제기 |
 | 0.1.0 | 2026-08-20 | 정현수 | 아키텍처 그릴링(6.3) 결과 최초 작성. 개체 4개(ENT-PROFILE, ENT-EDUCATION, ENT-CAREER, ENT-SKILLS), 값 개념 6개, DRQ 17개, 검증 케이스 10개 정의. 그릴링 합의: (1) education/career 완전 별개 유지(ADR-0002), (2) career.period 자유 텍스트 유지(ADR-0003), (3) skills.tech 통째 저장, (4) social[] 프로필에 통째 포함. 미결 사항 2건(gpa 누락, career 정렬 정확도) 제기 |
 
 ---

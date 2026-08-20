@@ -24,3 +24,8 @@ export type CareerUpdate = components['schemas']['CareerUpdateRequest']
 export type Skills = components['schemas']['SkillsDTO']
 export type SkillsUpdate = components['schemas']['SkillsUpdateRequest']
 export type SocialLink = components['schemas']['SocialLink']
+
+export type Project = components['schemas']['ProjectDTO']
+export type ProjectCreate = components['schemas']['ProjectCreateRequest']
+export type ProjectUpdate = components['schemas']['ProjectUpdateRequest']
+export type ProjectLink = components['schemas']['ProjectLink']

@@ -11,6 +11,7 @@ myhub_02_fullstack/
 │   ├── profiles/      프로필 조회 · 수정 (Read + Update, 단일 레코드)
 │   ├── education/     학력 CRUD (여러 건)
 │   ├── career/        경력 CRUD (여러 건)
+│   ├── projects/      프로젝트 CRUD (여러 건, 8.1 신규 추가)
 │   ├── skills/        스킬 조회 · 통째 수정 (Read + Update, 단일 레코드)
 │   │   └── (각 기능 폴더는 router → service → repository → models 4겹 구조)
 │   ├── tests/         pytest (기능별 테스트 파일 + conftest 픽스처)
@@ -20,7 +21,7 @@ myhub_02_fullstack/
 │   └── main.py        FastAPI 앱 조립 (라우터 include)
 ├── frontend/
 │   └── src/
-│       ├── features/{auth,profile,education,career,skills}/   백엔드와 동일한 기능별 구조
+│       ├── features/{auth,profile,education,career,projects,skills}/   백엔드와 동일한 기능별 구조
 │       ├── theme/      다크모드 (useTheme, ThemeToggle)
 │       └── api/        httpClient, openapi-typescript 자동 생성 타입
 ├── specs/              PRD, 유저스토리, 데이터 요구사항, UI/UX 요구사항, ADR (그릴링 산출물)
@@ -46,7 +47,10 @@ myhub_02_fullstack/
 - [x] 7.3 공통 레이아웃 설계 — `specs/design/myhub_uiux_req.md`, UI 목업
 - [x] 7.5 명세 주입 구현 — **career, skills 도메인 신규 구현** + profile 필드 확장(사진/생년월일/주소/병역/연락처/소셜) + education.gpa 보완
   - 민감 필드(birth/address/military_service)는 방문자 응답에서 제외, 소유자 조회 시에만 노출 (PRD UR-13)
-  - ⚠️ career/skills는 아직 pytest 테스트가 없음 (coding-agent는 테스트를 작성하지 않는 역할 분리, 7.1 참고)
+- [x] 8.1 신규 기능 추가 — **projects 도메인 구현** (팀/개인 프로젝트, 참조 링크, 연도순 자동 정렬). Day 1 CV의 실제 프로젝트(Q-Checker, KAGE, UnPlug, FUNGLE, DOSIRAK)로 seed
+  - `specs/analysis/myhub_us.md` → v0.2.0 (USG-08 신설), `specs/design/myhub_data_req.md` → v0.2.0 (ENT-PROJECT 신설), `specs/myhub_prd.md` → v0.5
+  - 테스트 코드 보강: career/skills/projects 신규 테스트 + profile 민감정보 마스킹 테스트 추가, 총 **55개 테스트, 커버리지 90%**
+  - URL 형식 검증(DRQ-014/019)이 명세에만 있고 실제로는 누락되어 있던 것을 발견해 `profiles`/`projects`의 링크 필드에 실제로 추가
 
 ## 로컬 실행
 
@@ -75,6 +79,7 @@ python -m pytest
 - `tests/conftest.py`가 `.env`의 실제 Supabase 대신 임시 SQLite로 바꿔치기하므로 실제 DB에는 영향이 없습니다.
 - 실행 후 `htmlcov/index.html`을 브라우저로 열면 파일별 커버리지(어떤 줄이 실행되지 않았는지)를 확인할 수 있습니다.
 - `init_db.py`의 커버리지가 낮은 것은 정상입니다 — 테스트는 매 테스트마다 빈 스키마로 격리하기 위해 앱의 `lifespan`(시작 시 자동 seed)을 일부러 트리거하지 않습니다.
+- 55개 테스트, 전체 커버리지 90% (기능 모듈은 거의 전부 100%).
 
 ## 환경 변수
 

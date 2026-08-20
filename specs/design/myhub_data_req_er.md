@@ -1,7 +1,7 @@
 ---
 doc_id: MYHUB-DATAREQ-001-ER
 title: MyHub 데이터 요구사항 — ER 발췌본 (컨텍스트 압축용)
-version: 0.1.0
+version: 0.2.0
 status: approved
 owner: 정현수
 updated: 2026-08-20
@@ -20,7 +20,7 @@ related_docs:
 
 ### 0.5 전제 — 바꿀 수 없는 것
 - PRD 4장의 데이터 스키마는 변경 대상이 아니다.
-- 이번 사이클 범위: profile/education/career/skills.
+- 이번 사이클 범위: profile/education/career/skills/projects (v0.2.0, 8.1에서 projects 추가).
 - 목록형 개체는 자동 정렬만 지원, 수동 순서(order) 없음 (ADR-0001).
 - 단일 소유자 시스템 — 개체에 owner_id 없음.
 
@@ -54,6 +54,13 @@ erDiagram
         list tech "고유ID 없음, 통째 저장"
         list languages
     }
+    ENT-PROJECT {
+        string category "팀/개인"
+        string year "정렬 기준"
+        string name
+        string role
+        list links "고유ID 없음, 통째 저장"
+    }
 ```
 
 ### 1.2 개체 분류
@@ -61,7 +68,7 @@ erDiagram
 | 분류 | 개체 | 개수 | 동작 |
 |---|---|---|---|
 | 단일형 | `ENT-PROFILE`, `ENT-SKILLS` | 1 | 조회·수정 |
-| 목록형 | `ENT-EDUCATION`, `ENT-CAREER` | 0..N | 생성·조회·수정·삭제 |
+| 목록형 | `ENT-EDUCATION`, `ENT-CAREER`, `ENT-PROJECT` | 0..N | 생성·조회·수정·삭제 |
 
 ### 1.3 이 모델이 답하지 않는 것
 
@@ -88,12 +95,15 @@ erDiagram
 ### 3.4 `ENT-SKILLS` (단일형, 1개)
 `tech[]{ko,en}`(통째 저장) · `languages[]{name{ko,en},level{ko,en}}`(통째 저장)
 
+### 3.5 `ENT-PROJECT` (목록형, 0개 이상) *(v0.2.0)*
+`category`**필수** · `year`**필수**(정렬 기준) · `period`(선택, 자유 텍스트) · `name`**필수** · `role`**필수** · `description`(선택) · `links[]{label,url}`(통째 저장)
+
 ---
 
 ## 4. 관계 명세
 
 **존재하지 않는 관계**
-- `ENT-PROFILE` ↔ 나머지 3개: 참조 없음 (단일 소유자 시스템).
-- `ENT-EDUCATION` ↔ `ENT-CAREER`: 참조 없음, 통합 조회 없음 (ADR-0002).
+- `ENT-PROFILE` ↔ 나머지 4개: 참조 없음 (단일 소유자 시스템).
+- `ENT-EDUCATION` ↔ `ENT-CAREER` ↔ `ENT-PROJECT`: 참조 없음, 통합 조회 없음 (ADR-0002).
 
 ---

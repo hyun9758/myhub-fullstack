@@ -122,6 +122,42 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/projects": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Projects */
+        get: operations["list_projects_api_projects_get"];
+        put?: never;
+        /** Create Project */
+        post: operations["create_project_api_projects_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/projects/{project_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Project */
+        put: operations["update_project_api_projects__project_id__put"];
+        post?: never;
+        /** Delete Project */
+        delete: operations["delete_project_api_projects__project_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/skills": {
         parameters: {
             query?: never;
@@ -350,6 +386,66 @@ export interface components {
             affiliation?: string | null;
             /** Social */
             social?: components["schemas"]["SocialLink"][];
+        };
+        /** ProjectCreateRequest */
+        ProjectCreateRequest: {
+            /** Category */
+            category: string;
+            /** Year */
+            year: string;
+            /** Period */
+            period?: string | null;
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+            /** Description */
+            description?: string | null;
+            /** Links */
+            links?: components["schemas"]["ProjectLink"][];
+        };
+        /** ProjectDTO */
+        ProjectDTO: {
+            /** Id */
+            id: number;
+            /** Category */
+            category: string;
+            /** Year */
+            year: string;
+            /** Period */
+            period: string | null;
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+            /** Description */
+            description: string | null;
+            /** Links */
+            links: components["schemas"]["ProjectLink"][];
+        };
+        /** ProjectLink */
+        ProjectLink: {
+            /** Label */
+            label: string;
+            /** Url */
+            url: string;
+        };
+        /** ProjectUpdateRequest */
+        ProjectUpdateRequest: {
+            /** Category */
+            category: string;
+            /** Year */
+            year: string;
+            /** Period */
+            period?: string | null;
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+            /** Description */
+            description?: string | null;
+            /** Links */
+            links?: components["schemas"]["ProjectLink"][];
         };
         /** SkillsDTO */
         SkillsDTO: {
@@ -767,6 +863,129 @@ export interface operations {
             header?: never;
             path: {
                 career_id: number;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_projects_api_projects_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectDTO"][];
+                };
+            };
+        };
+    };
+    create_project_api_projects_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProjectCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectDTO"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_project_api_projects__project_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project_id: number;
+            };
+            cookie?: {
+                session?: string | null;
+            };
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProjectUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProjectDTO"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_project_api_projects__project_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                project_id: number;
             };
             cookie?: {
                 session?: string | null;

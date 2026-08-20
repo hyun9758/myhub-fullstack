@@ -1,6 +1,7 @@
 import { ProfileSection } from './features/profile/ProfileSection'
 import { EducationSection } from './features/education/EducationSection'
 import { CareerSection } from './features/career/CareerSection'
+import { ProjectSection } from './features/projects/ProjectSection'
 import { SkillsSection } from './features/skills/SkillsSection'
 import { useAuth } from './features/auth/useAuth'
 import { ThemeToggle } from './theme/ThemeToggle'
@@ -22,6 +23,7 @@ function App() {
       />
       <EducationSection authenticated={authenticated} onUnauthorized={handleUnauthorized} />
       <CareerSection authenticated={authenticated} onUnauthorized={handleUnauthorized} />
+      <ProjectSection authenticated={authenticated} onUnauthorized={handleUnauthorized} />
       <SkillsSection authenticated={authenticated} onUnauthorized={handleUnauthorized} />
     </main>
   )
