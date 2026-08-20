@@ -1,0 +1,13 @@
+- USG-01: 언어 전환
+- USG-02: 화면 밝기(테마)
+- USG-03: 인쇄 / PDF 저장
+- USG-04: Profile
+- USG-05: Intro
+- USG-06: Education
+- USG-07: Career
+- USG-08: Projects
+- USG-09: Publications
+- USG-10: Awards
+- USG-11: Skills
+- USG-12: 이력서 열람 및 탐색
+- USG-13: 소유자 인증 및 데이터 라이브 편집
