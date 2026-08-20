@@ -48,7 +48,8 @@ def health():
 
 
 class Profile(BaseModel):
-    """이력서 소유자의 기본 프로필 정보 응답 DTO."""
+    """이력서 소유자의 기본 프로필 정보 DTO. DB 테이블 원형을 그대로 노출하지 않고
+    외부로 나가는 필드만 명시적으로 정의한다 (내부 전용 컬럼이 추가되어도 자동 유출되지 않음)."""
 
     id: int
     full_name: str
@@ -57,7 +58,11 @@ class Profile(BaseModel):
     updated_at: str
 
 
-@app.get("/profile", response_model=dict[str, Profile])
+class ProfileResponse(BaseModel):
+    profile: Profile
+
+
+@app.get("/api/profile", response_model=ProfileResponse)
 def get_profile():
     """`public.profile` 테이블에서 이름·한 줄 소개·상세 소개·마지막 수정 시각을 조회한다.
 
@@ -78,15 +83,15 @@ def get_profile():
                 row = cur.fetchone()
         if row is None:
             raise HTTPException(status_code=404, detail="프로필이 아직 없습니다.")
-        return {
-            "profile": Profile(
+        return ProfileResponse(
+            profile=Profile(
                 id=row[0],
                 full_name=row[1],
                 headline=row[2],
                 summary=row[3],
                 updated_at=row[4].isoformat(),
             )
-        }
+        )
     except HTTPException:
         raise
     except Exception as e:
